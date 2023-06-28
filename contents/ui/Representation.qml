@@ -12,7 +12,7 @@ GridLayout {
         {   
             "flow": GridLayout.LeftToRight,
             "columns": -1,
-            "rows": 1,
+            "rows": 2,//1
             "layoutDirection": Qt.LeftToRight,
             "track": {
                 "horizontalAlignment": Text.AlignLeft,
@@ -32,7 +32,7 @@ GridLayout {
         },{
             "flow": GridLayout.LeftToRight,
             "columns": -1,
-            "rows": 1,
+            "rows": 2,//1
             "layoutDirection": Qt.RightToLeft,
             "track": {
                 "horizontalAlignment": Text.AlignRight,
@@ -49,8 +49,8 @@ GridLayout {
                 "width": 1,
                 "height": 1
             }
-        },
-        // {
+        }
+        // ,{
         //     "flow": GridLayout.TopToBottom,
         //     "columns": 1,
         //     "rows": -1,
@@ -117,8 +117,22 @@ GridLayout {
     MouseArea {
         id: mediaControlsMouseArea
         width: nowPlayingColumn.width
-        // Layout.fillWidth: true
+        Layout.fillWidth: true
         hoverEnabled: true
+        ColumnLayout {
+        Layout.fillWidth: true
+        id: playerName
+        Label {
+            id: player
+            Layout.alignment: alignmentOption.title.alignment
+            text: mediaSource.playerName
+            lineHeight: 1 //
+            font.pixelSize: 16 //
+            font.bold: true
+            font.family: plasmoid.configuration.fontFamily
+            color: "red"
+            }
+        }
         ColumnLayout {
             anchors.centerIn: parent
             spacing: 1
@@ -128,8 +142,8 @@ GridLayout {
                 Layout.alignment: alignmentOption.title.alignment 
                 text: mediaSource.playbackStatus
                         === "Playing" ? "NOW" : "LAST"
-                lineHeight: 0.8
-                font.pixelSize: 16
+                lineHeight: 1 //
+                font.pixelSize: 20 //
                 font.bold: true
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
@@ -138,10 +152,10 @@ GridLayout {
                 id: nowPlayingLabel2
                 Layout.alignment: alignmentOption.title.alignment 
                 text: mediaSource.playbackStatus
-                        === "Playing" ? "PLAYING" : "PLAYED "
-                lineHeight: 0.8
+                        === "Playing" ? "PLAYING" : "PLAYED"
+                lineHeight: 1 //
                 font.bold: true
-                font.pixelSize: 16
+                font.pixelSize: 20 //
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
             }
@@ -202,8 +216,28 @@ GridLayout {
         width: alignmentOption.separator.width
         Layout.fillWidth: alignmentOption.separator.fillWidth
         Layout.fillHeight: alignmentOption.separator.fillHeight
-        // color: "red"
+        color: "red"
     }
+    ColumnLayout {
+        Layout.fillWidth: true
+        id: artInfo
+        //
+        Item {
+            width: 200
+            height: 200
+            clip: true
+            Image {
+                width: 200
+                height: 200
+                anchors.centerIn: parent
+                source: mediaSource.albumArt
+                fillMode: Image.ScaleAspectFit
+                smooth: true
+            }
+        }
+        //
+    }
+
     ColumnLayout {
         Layout.fillWidth: true
         id: infoColumn
@@ -213,7 +247,7 @@ GridLayout {
             text: mediaSource.track
             Layout.alignment: alignmentOption.track.alignment 
             Layout.fillWidth: true
-            font.pixelSize: 28
+            font.pixelSize: 32
             color: "red"
             lineHeight: 0.8
             font.bold: true
@@ -231,7 +265,7 @@ GridLayout {
             Layout.preferredWidth: trackLabel.width / 2
             Layout.fillWidth: true
             text: mediaSource.artist
-            font.pixelSize: 26
+            font.pixelSize: 24
             wrapMode: Text.Wrap
             maximumLineCount: 2
             horizontalAlignment: alignmentOption.track.horizontalAlignment 

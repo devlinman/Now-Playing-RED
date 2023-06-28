@@ -7,8 +7,8 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     id: root
 
-    Layout.minimumWidth: units.gridUnit*25
-    Layout.minimumHeight: units.gridUnit*5
+    Layout.minimumWidth: units.gridUnit*28
+    Layout.minimumHeight: units.gridUnit*8
 
     Plasmoid.backgroundHints: plasmoid.configuration.background || PlasmaCore.Types.NoBackground
     opacity: plasmoid.configuration.opacity/100
@@ -31,16 +31,11 @@ Item {
         property string playerIcon: loaded ? currentData["Desktop Icon Name"] || "" : ""
         property string playerName: loaded ? currentData.Identity : ""
         property string playbackStatus: loaded ? currentData.PlaybackStatus : ""
-        property string track: currentMetadata ? currentMetadata["xesam:title"]
-                                                 || "" : ""
-        property string artist: currentMetadata ? currentMetadata["xesam:artist"]
-                                                  || "" : ""
-        property string album: currentMetadata ? currentMetadata["xesam:album"]
-                                                 || "" : ""
-        property string albumArt: currentMetadata ? currentMetadata["mpris:artUrl"]
-                                                    || "" : ""
-        property double length: currentMetadata ? currentMetadata["mpris:length"]
-                                                  || 0 : 0
+        property string track: currentMetadata ? currentMetadata["xesam:title"] || "" : ""
+        property string artist: currentMetadata ? currentMetadata["xesam:artist"] || "" : ""
+        property string album: currentMetadata ? currentMetadata["xesam:album"] || "" : ""
+        property string albumArt: currentMetadata ? currentMetadata["mpris:artUrl"] || "" : ""
+        property double length: currentMetadata ? currentMetadata["mpris:length"] || 0 : 0
         property double position: loaded ? currentData.Position || 0 : 0
 
         function hasLoaded() {
@@ -77,6 +72,9 @@ Item {
     function mediaPause() {
         serviceOp("Pause")
     }
+    function mediaStop() {
+        serviceOp("Stop")
+    }
     function mediaToggle() {
         serviceOp("PlayPause")
     }
@@ -85,9 +83,6 @@ Item {
     }
     function mediaNext() {
         serviceOp("Next")
-    }
-    function mediaStop() {
-        serviceOp("Stop")
     }
     function updatePosition() {
         serviceOp("GetPosition")
