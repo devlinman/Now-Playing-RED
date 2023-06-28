@@ -7,7 +7,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     id: root
 
-    Layout.minimumWidth: units.gridUnit*28
+    Layout.minimumWidth: units.gridUnit*32
     Layout.minimumHeight: units.gridUnit*8
 
     Plasmoid.backgroundHints: plasmoid.configuration.background || PlasmaCore.Types.NoBackground

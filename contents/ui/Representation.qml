@@ -50,47 +50,6 @@ GridLayout {
                 "height": 1
             }
         }
-        // ,{
-        //     "flow": GridLayout.TopToBottom,
-        //     "columns": 1,
-        //     "rows": -1,
-        //     "layoutDirection": Qt.LeftToRight,
-        //     "track": {
-        //         "horizontalAlignment": Text.AlignCenter,
-        //         "alignment": Qt.AlignCenter,
-        //         "elide": Text.ElideNone
-        //     },
-        //     "title": {
-        //         "horizontalAlignment": Text.AlignCenter,
-        //         "alignment": Qt.AlignCenter,
-        //     },
-        //     "separator": {
-        //         "fillWidth": false,
-        //         "fillHeight": true,
-        //         "width": 1,
-        //         "height": 1
-        //     }
-        // },{
-        //     "flow": GridLayout.TopToBottom,
-        //     "columns": 1,
-        //     "rows": -1,
-        //     "layoutDirection": Qt.RightToLeft,
-        //     "track": {
-        //         "horizontalAlignment": Text.AlignCenter,
-        //         "alignment": Qt.AlignCenter,
-        //         "elide": Text.ElideNone
-        //     },
-        //     "title": {
-        //         "horizontalAlignment": Text.AlignCenter,
-        //         "alignment": Qt.AlignCenter,
-        //     },
-        //     "separator": {
-        //         "fillWidth": true,
-        //         "fillHeight": false,
-        //         "width": 1,
-        //         "height": 1
-        //     }
-        // }
     ]
 
     readonly property var alignmentOption: alignmentOpts[plasmoid.configuration.alignment]
@@ -117,26 +76,23 @@ GridLayout {
     MouseArea {
         id: mediaControlsMouseArea
         width: nowPlayingColumn.width
+        Layout.minimumWidth: 120
         Layout.fillWidth: true
         hoverEnabled: true
         ColumnLayout {
-        Layout.fillWidth: true
-        id: playerName
-        Label {
-            id: player
-            Layout.alignment: alignmentOption.title.alignment
-            text: mediaSource.playerName
-            lineHeight: 1 //
-            font.pixelSize: 16 //
-            font.bold: true
-            font.family: plasmoid.configuration.fontFamily
-            color: "red"
-            }
-        }
-        ColumnLayout {
             anchors.centerIn: parent
-            spacing: 1
+            spacing: 0
             id: nowPlayingColumn
+            Label {
+                id: playerName
+                Layout.alignment: alignmentOption.title.alignment
+                text: mediaSource.playerName
+                lineHeight: 1 //
+                font.pixelSize: 16 //
+                font.bold: true
+                font.family: plasmoid.configuration.fontFamily
+                color: "red"
+            }
             Label {
                 id: nowPlayingLabel1
                 Layout.alignment: alignmentOption.title.alignment 
@@ -169,7 +125,7 @@ GridLayout {
                     }
                 }
                 Button {
-                    Layout.preferredWidth: nowPlayingLabel2.width / 3
+                    Layout.preferredWidth: playerName.width / 3
                     contentItem: PlasmaCore.IconItem {
                         source: "media-skip-backward"
                     }
@@ -181,7 +137,7 @@ GridLayout {
                     }
                 }
                 Button {
-                    Layout.preferredWidth: nowPlayingLabel2.width / 3
+                    Layout.preferredWidth: playerName.width / 3
                     id: playButton
                     contentItem: PlasmaCore.IconItem {
                         source: mediaSource.playbackStatus
@@ -195,7 +151,7 @@ GridLayout {
                     }
                 }
                 Button {
-                    Layout.preferredWidth: nowPlayingLabel2.width / 3
+                    Layout.preferredWidth: playerName.width / 3
                     contentItem: PlasmaCore.IconItem {
                         source: "media-skip-forward"
                     }
@@ -261,7 +217,7 @@ GridLayout {
             font.family: plasmoid.configuration.fontFamily
             elide: alignmentOption.track.elide 
             Layout.alignment: alignmentOption.track.alignment 
-            Layout.minimumWidth: 250
+            Layout.minimumWidth: 300
             Layout.preferredWidth: trackLabel.width / 2
             Layout.fillWidth: true
             text: mediaSource.artist
