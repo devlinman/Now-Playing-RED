@@ -93,6 +93,9 @@ GridLayout {
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
             }
+            Rectangle {
+                height: 30
+            }
             Label {
                 id: nowPlayingLabel1
                 Layout.alignment: alignmentOption.title.alignment 
@@ -103,6 +106,8 @@ GridLayout {
                 font.bold: true
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
+                visible: mediaSource.playbackStatus !== ""
+                //
             }
             Label {
                 id: nowPlayingLabel2
@@ -114,6 +119,8 @@ GridLayout {
                 font.pixelSize: 20 //
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
+                visible: mediaSource.playbackStatus !== ""
+                //
             }
             RowLayout {
                 id: mediaControls
@@ -173,6 +180,8 @@ GridLayout {
         Layout.fillWidth: alignmentOption.separator.fillWidth
         Layout.fillHeight: alignmentOption.separator.fillHeight
         color: "red"
+        visible: mediaSource.playbackStatus !== ""
+        //
     }
     ColumnLayout {
         Layout.fillWidth: true
@@ -187,11 +196,16 @@ GridLayout {
                 height: 200
                 anchors.centerIn: parent
                 source: mediaSource.albumArt
-                fillMode: Image.ScaleAspectFit
+                // fillMode: Image.ScaleAspectFit
+                fillMode: Image.PreserveAspectFit
                 smooth: true
             }
         }
         //
+    }
+
+    Rectangle {
+        width: 10
     }
 
     ColumnLayout {
@@ -211,6 +225,9 @@ GridLayout {
             maximumLineCount: 2
             elide: alignmentOption.track.elide 
             horizontalAlignment: alignmentOption.track.horizontalAlignment 
+        }
+        Rectangle {
+            height: 10
         }
         PlasmaComponents.Label {
             id: artistLabel
