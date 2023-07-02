@@ -26,8 +26,8 @@ GridLayout {
             "separator": {
                 "fillWidth": false,
                 "fillHeight": true,
-                "width": 1,
-                "height": 1
+                "width": 2,
+                "height": 2
             }
         },{
             "flow": GridLayout.LeftToRight,
@@ -46,8 +46,8 @@ GridLayout {
             "separator": {
                 "fillWidth": false,
                 "fillHeight": true,
-                "width": 1,
-                "height": 1
+                "width": 2,
+                "height": 2,
             }
         }
     ]
@@ -56,40 +56,27 @@ GridLayout {
     rows: alignmentOption.rows
     flow: alignmentOption.flow
     columns: alignmentOption.columns
-    Keys.onReleased: {
-        if (!event.modifiers) {
-            event.accepted = true
-            if (event.key === Qt.Key_Space || event.key === Qt.Key_K) {
-                root.mediaToggle()
-            } else if (event.key === Qt.Key_P) {
-                root.mediaPrev()
-            } else if (event.key === Qt.Key_N) {
-                root.mediaNext()
-            } else {
-                event.accepted = false
-            }
-        }
-    }
-
     layoutDirection: alignmentOption.layoutDirection
 
     MouseArea {
         id: mediaControlsMouseArea
-        width: nowPlayingColumn.width
-        Layout.minimumWidth: 120
-        Layout.fillWidth: true
+        Layout.preferredWidth: Math.max(playerName.width, nowPlayingLabel1.width, nowPlayingLabel2.width)
         hoverEnabled: true
         ColumnLayout {
             anchors.centerIn: parent
-            spacing: 0
             id: nowPlayingColumn
             Label {
                 id: playerName
                 Layout.alignment: alignmentOption.title.alignment
+                Layout.minimumWidth: 10
+                horizontalAlignment: alignmentOption.track.horizontalAlignment
                 text: mediaSource.playerName
                 lineHeight: 1 //
-                font.pixelSize: 16 //
+                font.pixelSize: 20 //
                 font.bold: true
+                wrapMode: Text.Wrap
+                maximumLineCount: 2
+                elide: alignmentOption.track.elide
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
             }
@@ -102,7 +89,7 @@ GridLayout {
                 text: mediaSource.playbackStatus
                         === "Playing" ? "NOW" : "LAST"
                 lineHeight: 1 //
-                font.pixelSize: 20 //
+                font.pixelSize: 24 //
                 font.bold: true
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
@@ -116,7 +103,7 @@ GridLayout {
                         === "Playing" ? "PLAYING" : "PLAYED"
                 lineHeight: 1 //
                 font.bold: true
-                font.pixelSize: 20 //
+                font.pixelSize: 24 //
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
                 visible: mediaSource.playbackStatus !== ""
@@ -125,6 +112,8 @@ GridLayout {
             RowLayout {
                 id: mediaControls
                 opacity: mediaControlsMouseArea.containsMouse
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
                 Behavior on opacity {
                     PropertyAnimation {
                         easing.type: Easing.InOutQuad
@@ -132,8 +121,10 @@ GridLayout {
                     }
                 }
                 Button {
-                    Layout.preferredWidth: playerName.width / 3
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.fillWidth: true
                     contentItem: PlasmaCore.IconItem {
+                        height: 24  // Set the desired height for the icon
                         source: "media-skip-backward"
                     }
                     padding: 1
@@ -144,11 +135,12 @@ GridLayout {
                     }
                 }
                 Button {
-                    Layout.preferredWidth: playerName.width / 3
                     id: playButton
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.fillWidth: true
                     contentItem: PlasmaCore.IconItem {
-                        source: mediaSource.playbackStatus
-                                === "Playing" ? "media-playback-pause" : "media-playback-start"
+                        height: 24  // Set the desired height for the icon
+                        source: mediaSource.playbackStatus === "Playing" ? "media-playback-pause" : "media-playback-start"
                     }
                     padding: 1
                     background: null
@@ -158,8 +150,10 @@ GridLayout {
                     }
                 }
                 Button {
-                    Layout.preferredWidth: playerName.width / 3
+                    Layout.alignment: Qt.AlignRight
+                    Layout.fillWidth: true
                     contentItem: PlasmaCore.IconItem {
+                        height: 24  // Set the desired height for the icon
                         source: "media-skip-forward"
                     }
                     onClicked: {
@@ -174,6 +168,9 @@ GridLayout {
         }
     }
     Rectangle {
+        width: 10
+    }
+    Rectangle {
         id: separator
         height: alignmentOption.separator.height
         width: alignmentOption.separator.width
@@ -181,33 +178,27 @@ GridLayout {
         Layout.fillHeight: alignmentOption.separator.fillHeight
         color: "red"
         visible: mediaSource.playbackStatus !== ""
-        //
     }
-    ColumnLayout {
-        Layout.fillWidth: true
-        id: artInfo
-        //
-        Item {
+    Rectangle {
+        width: 1
+    }
+    Item {
+        width: 202
+        height: 202
+        // visible: mediaSource.playbackStatus !== "" || mediaSource.albumArt !== ""
+        clip: true
+        Image {
             width: 200
             height: 200
-            clip: true
-            Image {
-                width: 200
-                height: 200
-                anchors.centerIn: parent
-                source: mediaSource.albumArt
-                // fillMode: Image.ScaleAspectFit
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-            }
+            anchors.centerIn: parent
+            source: mediaSource.albumArt
+            fillMode: Image.PreserveAspectFit
+            smooth: true
         }
-        //
     }
-
     Rectangle {
         width: 10
     }
-
     ColumnLayout {
         Layout.fillWidth: true
         id: infoColumn
@@ -215,7 +206,7 @@ GridLayout {
             id: trackLabel
             font.family: plasmoid.configuration.fontFamily
             text: mediaSource.track
-            Layout.alignment: alignmentOption.track.alignment 
+            Layout.alignment: alignmentOption.track.alignment
             Layout.fillWidth: true
             font.pixelSize: 32
             color: "red"
@@ -223,8 +214,8 @@ GridLayout {
             font.bold: true
             wrapMode: Text.Wrap
             maximumLineCount: 2
-            elide: alignmentOption.track.elide 
-            horizontalAlignment: alignmentOption.track.horizontalAlignment 
+            elide: alignmentOption.track.elide
+            horizontalAlignment: alignmentOption.track.horizontalAlignment
         }
         Rectangle {
             height: 10
@@ -232,8 +223,8 @@ GridLayout {
         PlasmaComponents.Label {
             id: artistLabel
             font.family: plasmoid.configuration.fontFamily
-            elide: alignmentOption.track.elide 
-            Layout.alignment: alignmentOption.track.alignment 
+            elide: alignmentOption.track.elide
+            Layout.alignment: alignmentOption.track.alignment
             Layout.minimumWidth: 300
             Layout.preferredWidth: trackLabel.width / 2
             Layout.fillWidth: true
@@ -241,7 +232,7 @@ GridLayout {
             font.pixelSize: 24
             wrapMode: Text.Wrap
             maximumLineCount: 2
-            horizontalAlignment: alignmentOption.track.horizontalAlignment 
+            horizontalAlignment: alignmentOption.track.horizontalAlignment
             color: "red"
             lineHeight: 0.8
         }
