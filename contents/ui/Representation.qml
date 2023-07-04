@@ -3,11 +3,9 @@ import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.12
 import org.kde.plasma.components 3.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
-
 GridLayout {
     id: fullView
     focus: true
-
     readonly property var alignmentOpts: [
         {   
             "flow": GridLayout.LeftToRight,
@@ -51,13 +49,11 @@ GridLayout {
             }
         }
     ]
-
     readonly property var alignmentOption: alignmentOpts[plasmoid.configuration.alignment]
     rows: alignmentOption.rows
     flow: alignmentOption.flow
     columns: alignmentOption.columns
     layoutDirection: alignmentOption.layoutDirection
-
     MouseArea {
         id: mediaControlsMouseArea
         Layout.preferredWidth: Math.max(playerName.width, nowPlayingLabel1.width, nowPlayingLabel2.width)
@@ -81,7 +77,7 @@ GridLayout {
                 color: "red"
             }
             Rectangle {
-                height: 30
+                height: 20
             }
             Label {
                 id: nowPlayingLabel1
@@ -124,7 +120,7 @@ GridLayout {
                     Layout.alignment: Qt.AlignLeft
                     Layout.fillWidth: true
                     contentItem: PlasmaCore.IconItem {
-                        height: 24  // Set the desired height for the icon
+                        height: 50  // Set the desired height for the icon
                         source: "media-skip-backward"
                     }
                     padding: 1
@@ -139,7 +135,7 @@ GridLayout {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.fillWidth: true
                     contentItem: PlasmaCore.IconItem {
-                        height: 24  // Set the desired height for the icon
+                        height: 50  // Set the desired height for the icon
                         source: mediaSource.playbackStatus === "Playing" ? "media-playback-pause" : "media-playback-start"
                     }
                     padding: 1
@@ -153,7 +149,7 @@ GridLayout {
                     Layout.alignment: Qt.AlignRight
                     Layout.fillWidth: true
                     contentItem: PlasmaCore.IconItem {
-                        height: 24  // Set the desired height for the icon
+                        height: 50  // Set the desired height for the icon
                         source: "media-skip-forward"
                     }
                     onClicked: {
@@ -185,7 +181,7 @@ GridLayout {
     Item {
         width: 202
         height: 202
-        // visible: mediaSource.playbackStatus !== "" || mediaSource.albumArt !== ""
+        visible: mediaSource.albumArt !== ""
         clip: true
         Image {
             width: 200
@@ -234,7 +230,21 @@ GridLayout {
             maximumLineCount: 2
             horizontalAlignment: alignmentOption.track.horizontalAlignment
             color: "red"
-            lineHeight: 0.8
+            lineHeight: 1
+        }
+        Rectangle {
+            height: 10
+        }
+        PlasmaComponents.Label {
+            id: whereami
+            font.family: plasmoid.configuration.fontFamily
+            font.pixelSize: 20
+            Layout.alignment: alignmentOption.track.alignment
+            property string pos: Math.floor(mediaSource.position/1000000)
+            property string len: Math.floor(mediaSource.length/1000000)
+            text: root.formatTrackTime(pos) + " / " + root.formatTrackTime(len)
+            color: "red"
+            visible: mediaSource.playbackStatus !== ""
         }
     }
 }

@@ -3,31 +3,23 @@ import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.12
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
-
 Item {
     id: root
-
     Layout.minimumWidth: units.gridUnit*34
     Layout.minimumHeight: units.gridUnit*8
-
     Plasmoid.backgroundHints: plasmoid.configuration.background || PlasmaCore.Types.NoBackground
     opacity: plasmoid.configuration.opacity/100
-
     Representation {
         anchors.fill: parent
     }
-
     PlasmaCore.DataSource {
         id: mediaSource
         engine: "mpris2"
         connectedSources: sources
-
         property string currentSource: plasmoid.configuration.preferredSource
         property var currentData: data[currentSource]
         property var currentMetadata: currentData ? currentData.Metadata : {}
-
         property bool loaded: hasLoaded()
-
         property string playerIcon: loaded ? currentData["Desktop Icon Name"] || "" : ""
         property string playerName: loaded ? currentData.Identity : ""
         property string playbackStatus: loaded ? currentData.PlaybackStatus : ""
@@ -37,7 +29,6 @@ Item {
         property string albumArt: currentMetadata ? currentMetadata["mpris:artUrl"] || "" : ""
         property double length: currentMetadata ? currentMetadata["mpris:length"] || 0 : 0
         property double position: loaded ? currentData.Position || 0 : 0
-
         function hasLoaded() {
             if (typeof currentData === "undefined"
                     || typeof currentMetadata === "undefined") {
@@ -46,21 +37,21 @@ Item {
                 return true
             }
         }
-
         onSourceRemoved: {
             if (source === currentSource) {
                 currentSource = "@multiplex"
             }
         }
     }
-
     function formatTrackTime(s) {
         var hours = Math.floor(s / 3600)
         var minutes = Math.floor((s - (hours * 3600)) / 60)
         var seconds = Math.ceil(s - (hours * 3600) - (minutes * 60))
-        minutes = (minutes < 10) ? "0" + minutes : minutes
+        minutes = (minutes < 10 && hours !== 0) ? "0" + minutes : minutes
+        // var minutes = (hours !== 0) ? "0" + minutes : minutes
         seconds = (seconds < 10) ? "0" + seconds : seconds
         var time = minutes + ":" + seconds
+        time = (hours !== 0) ? hours + ":" + time : time
         return time
     }
     function action_open() {
@@ -101,7 +92,6 @@ Item {
         }
         service.startOperationCall(operation)
     }
-
     Timer {
         interval: 500
         running: true
@@ -110,7 +100,6 @@ Item {
             updatePosition()
         }
     }
-
     Component.onCompleted: {
         mediaSource.serviceForSource("@multiplex").enableGlobalShortcuts()
     }
