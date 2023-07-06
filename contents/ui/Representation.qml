@@ -245,29 +245,25 @@ GridLayout {
             text: root.formatTrackTime(pos) + " / " + root.formatTrackTime(len)
             color: "red"
             visible: mediaSource.playbackStatus !== ""
-            //
-            Item {
-                width: 300
-                height: 100
-                Slider {
-                    id: musicSlider
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        verticalCenter: parent.verticalCenter
-                    }
-                    from: 0
-                    to:  mediaSource.length
-                    value:  mediaSource.position
-                    onValueChanged: {
-                        if (value !== mediaSource.position) {
-                            var seekPosition = value - mediaSource.position;
-                            root.mediaSeek(seekPosition);
-                        }
-                    }
+        }
+//
+
+        PlasmaComponents.Slider {
+            Layout.alignment: alignmentOption.track.alignment
+            id: redSlider
+            width: 300
+            height: 100
+            from: 999999
+            to:  mediaSource.length
+            value:  mediaSource.position
+            onValueChanged: {
+                if (value !== mediaSource.position) {
+                    var seekPosition = value - mediaSource.position;
+                    root.mediaSeek(seekPosition);
                 }
             }
-            //
         }
+
+//
     }
 }
