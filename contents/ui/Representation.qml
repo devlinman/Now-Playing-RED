@@ -1,6 +1,6 @@
-import QtQuick 2.12
+import QtQuick 2.15
 import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
 import org.kde.plasma.components 3.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
 GridLayout {
@@ -245,6 +245,29 @@ GridLayout {
             text: root.formatTrackTime(pos) + " / " + root.formatTrackTime(len)
             color: "red"
             visible: mediaSource.playbackStatus !== ""
+            //
+            Item {
+                width: 300
+                height: 100
+                Slider {
+                    id: musicSlider
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                    from: 0
+                    to:  mediaSource.length
+                    value:  mediaSource.position
+                    onValueChanged: {
+                        if (value !== mediaSource.position) {
+                            var seekPosition = value - mediaSource.position;
+                            root.mediaSeek(seekPosition);
+                        }
+                    }
+                }
+            }
+            //
         }
     }
 }
