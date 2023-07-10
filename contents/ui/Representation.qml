@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.15
 import org.kde.plasma.components 3.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick.Controls.Styles 1.4
 GridLayout {
     id: fullView
     focus: true
@@ -246,14 +247,17 @@ GridLayout {
             color: "red"
             visible: mediaSource.playbackStatus !== ""
         }
-//
+        Rectangle {
+            height: 10
+        }
 
+//
         PlasmaComponents.Slider {
             Layout.alignment: alignmentOption.track.alignment
             id: redSlider
             width: 300
-            height: 100
-            from: 999999
+            height: 200
+            from: 0
             to:  mediaSource.length
             value:  mediaSource.position
             onValueChanged: {
@@ -262,8 +266,30 @@ GridLayout {
                     root.mediaSeek(seekPosition);
                 }
             }
+            visible: mediaSource.track !== ""
+            // handle: Rectangle {
+            //     anchors {
+            //         verticalCenter: parent.verticalCenter
+            //     }
+            //     color: "red"
+            //     width: 12
+            //     height: 12
+            //     radius: 6
+            //     x: parent.width * redSlider.visualPosition
+            //     visible: mediaSource.track !== ""
+            // }
+            // Rectangle {
+            //     anchors {
+            //         verticalCenter: parent.verticalCenter
+            //         left: parent.left
+            //     }
+            //     color: "red"
+            //     height: 4
+            //     radius: 2
+            //     width: parent.width * redSlider.visualPosition + 2
+            //     visible: mediaSource.track !== ""
+            // }
         }
-
 //
     }
 }
