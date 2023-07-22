@@ -40,3 +40,10 @@ Use the [Makefile](./Makefile).
 - [ ] Option to change color of the widget text.
 - [ ] Option to change the dimensions of Album art.
 - [ ] Smooth sliding with Slider (Drag operation).
+- [ ] Miscellaneous: Fix backend warnings (Layout overflows, containment etc.)
+
+## Preview
+### Normal
+![Normal](./icon-folder/preview-normal.png "Normal")
+### On Hover
+![Hover](./icon-folder/preview-hover.png "Hover")

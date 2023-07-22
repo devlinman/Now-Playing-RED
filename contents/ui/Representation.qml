@@ -242,9 +242,9 @@ GridLayout {
             height: 10
         }
         Slider {
-            // width: Math.min(trackLabel.width, artistLabel.width, 400)
             width: 350
             height: 20
+            Layout.alignment: alignmentOption.track.alignment
             maximum: mediaSource.length
             value:  mediaSource.position
             minimum: 0
@@ -258,7 +258,8 @@ GridLayout {
         }
         RowLayout {
             id: whereami
-            Layout.fillWidth: true
+            // Layout.fillWidth: true
+            Layout.alignment: alignmentOption.track.alignment
             property string pos: Math.floor(mediaSource.position/1000000)
             property string len: Math.floor(mediaSource.length/1000000)
             PlasmaComponents.Label {
@@ -276,7 +277,7 @@ GridLayout {
             }
             PlasmaComponents.Label {
                 id: lengthWhereAmI
-                Layout.alignment: Qt.AlignLeft
+                Layout.alignment: Qt.AlignRight
                 font.family: plasmoid.configuration.fontFamily
                 font.pixelSize: 20
                 text: root.formatTrackTime(whereami.len)
