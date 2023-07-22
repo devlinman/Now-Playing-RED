@@ -120,7 +120,6 @@ GridLayout {
                         duration: 200
                     }
                 }
-                // Button {
                 PlasmaComponents.Button {
                     Layout.alignment: Qt.AlignLeft
                     Layout.fillWidth: true
@@ -135,7 +134,6 @@ GridLayout {
                         console.log("prev clicked")
                     }
                 }
-                // Button {
                 PlasmaComponents.Button {
                     id: playButton
                     Layout.alignment: Qt.AlignHCenter
@@ -151,7 +149,6 @@ GridLayout {
                         console.log("pause clicked")
                     }
                 }
-                // Button {
                 PlasmaComponents.Button {
                     Layout.alignment: Qt.AlignRight
                     Layout.fillWidth: true
@@ -188,6 +185,7 @@ GridLayout {
     Item {
         id: albumArtContainer
         height: parent.height; width: height
+        // height: 200; width: height
         visible: mediaSource.albumArt !== ""
         clip: true
         Image {
@@ -242,30 +240,46 @@ GridLayout {
         Rectangle {
             height: 10
         }
-        PlasmaComponents.Label {
-            id: whereami
-            font.family: plasmoid.configuration.fontFamily
-            font.pixelSize: 20
-            Layout.alignment: alignmentOption.track.alignment
-            property string pos: Math.floor(mediaSource.position/1000000)
-            property string len: Math.floor(mediaSource.length/1000000)
-            text: root.formatTrackTime(pos) + " / " + root.formatTrackTime(len)
-            color: "red"
-            visible: mediaSource.playbackStatus !== ""
-        }
         Slider {
-            width: 500
+            // width: Math.min(trackLabel.width, artistLabel.width, 400)
+            width: 350
             height: 20
             maximum: mediaSource.length
             value:  mediaSource.position
             minimum: 0
-            onClicked: {
-            // backend = value
-            // onValueChanged: {
+            onClicked: { // backend = value
                 if (value !== mediaSource.position) {
                     var seekPosition = value - mediaSource.position;
                     root.mediaSeek(seekPosition);
                 }
+            }
+            visible: mediaSource.playbackStatus !== ""
+        }
+        RowLayout {
+            id: whereami
+            Layout.fillWidth: true
+            property string pos: Math.floor(mediaSource.position/1000000)
+            property string len: Math.floor(mediaSource.length/1000000)
+            PlasmaComponents.Label {
+                id: positionWhereAmI
+                Layout.alignment: Qt.AlignLeft
+                font.family: plasmoid.configuration.fontFamily
+                font.pixelSize: 20
+                text: root.formatTrackTime(whereami.pos)
+                color: "red"
+            }
+            Rectangle {
+                height: 10
+                width: 350 - lengthWhereAmI.width -positionWhereAmI.width
+                color: "transparent"
+            }
+            PlasmaComponents.Label {
+                id: lengthWhereAmI
+                Layout.alignment: Qt.AlignLeft
+                font.family: plasmoid.configuration.fontFamily
+                font.pixelSize: 20
+                text: root.formatTrackTime(whereami.len)
+                color: "red"
             }
             visible: mediaSource.playbackStatus !== ""
         }

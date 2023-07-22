@@ -20,10 +20,11 @@ Item {
     }
     Rectangle { // pill
         id: pill
+        anchors.verticalCenter: parent.verticalCenter
         x: (value - minimum) / (maximum - minimum) * (root.width - pill.width) // pixels from value
-        width: parent.height
+        width: parent.height - 5
         height: width
-        border.width: 0.05 * root.height
+        // border.width: 0.05 * root.height
         radius: 0.5 * height
         color: "red"
     }

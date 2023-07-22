@@ -25,8 +25,6 @@ Item {
 
     ColumnLayout {
         spacing: units.smallSpacing * 2
-
-
         RowLayout{
             Label {
                 text: i18n("Background:")
@@ -45,7 +43,6 @@ Item {
                 Component.onCompleted: currentIndex = indexOfValue(backgroundValue.value)
             }
         }
-
         RowLayout{
             Label {
                 text: i18n("Opacity percent")
@@ -56,13 +53,10 @@ Item {
                 to: 100
             }
         }
-
         RowLayout{
-
             Label {
                 text: i18n("Preferred media source")
             }
-
             ListModel {
                 id: sourcesModel
                 Component.onCompleted: {
@@ -82,7 +76,6 @@ Item {
                     append(arr)
                 }
             }
-
             ComboBox {
                 id: sourcesComboBox
                 model: sourcesModel
@@ -98,7 +91,6 @@ Item {
                 }
             }
         }
-
         RowLayout{
             Label {
                 text: i18n("Font")
@@ -113,13 +105,10 @@ Item {
                 }
             }
         }
-
         RowLayout{
-
             Label {
                 text: i18n("Alignment")
             }
-
             ListModel {
                 id: alignmentsModel
                 Component.onCompleted: {
@@ -133,7 +122,6 @@ Item {
                     append(arr)
                 }
             }
-
             ComboBox {
                 id: alignmentsComboBox
                 model: alignmentsModel
@@ -141,9 +129,12 @@ Item {
                 textRole: "label"
             }
         }
-
+        RowLayout{
+            Label {
+                text: i18n("Color")
+            }
+        }
     }
-
     PlasmaCore.DataSource {
         id: dataSource
         engine: "mpris2"
