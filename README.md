@@ -1,8 +1,9 @@
 # <span style="color:red;">Now-Playing-RED</span>
 
 *A <span style="color:red;">BLOOD RED</span> - NowPlaying Widget With Media Controls and Slider!*
-
 ---
+
+#### *Disclaimer: Needs KDE-PLASMA to work.*
 
 ## INSTALL
 
