@@ -55,6 +55,9 @@ GridLayout {
     flow: alignmentOption.flow
     columns: alignmentOption.columns
     layoutDirection: alignmentOption.layoutDirection
+    Rectangle {
+        width: 10
+    }
     MouseArea {
         id: mediaControlsMouseArea
         Layout.preferredWidth: Math.max(playerName.width, nowPlayingLabel1.width, nowPlayingLabel2.width)
@@ -232,6 +235,7 @@ GridLayout {
             Layout.fillWidth: true
             text: mediaSource.artist
             font.pixelSize: 24
+            font.bold: true
             wrapMode: Text.Wrap
             maximumLineCount: 2
             horizontalAlignment: alignmentOption.track.horizontalAlignment
@@ -258,7 +262,6 @@ GridLayout {
         }
         RowLayout {
             id: whereami
-            // Layout.fillWidth: true
             Layout.alignment: alignmentOption.track.alignment
             property string pos: Math.floor(mediaSource.position/1000000)
             property string len: Math.floor(mediaSource.length/1000000)

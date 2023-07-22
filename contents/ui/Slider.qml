@@ -1,30 +1,29 @@
 import QtQuick 2.0
-
 Item {
     id: root
     property double maximum: 10
     property double value:    0
     property double minimum:  0
     signal clicked(double value);  //onClicked:{root.value = value;  print('onClicked', value)}
-    // width: 500;  height: 100 // default size
     opacity: enabled  &&  !mouseArea.pressed? 1: 0.3 // disabled/pressed state
     Repeater { // left and right trays (so tray doesn't shine through pill in disabled state)
         model: 2
         delegate: Rectangle {
-            x:     !index?               0: pill.x + pill.width - radius
-            width: !index? pill.x + radius: root.width - x;  height: 0.1 * root.height
+            // x:     !index?               0: pill.x + pill.width - radius
+            width: !index? radius: root.width - x
+            height: 0.3 * root.height
             radius: 0.5 * height
-            color: 'red'
+            // color: '#cf1b42'
+            color: "red"
+            opacity: 0.5
             anchors.verticalCenter: parent.verticalCenter
         }
     }
     Rectangle { // pill
         id: pill
         anchors.verticalCenter: parent.verticalCenter
-        x: (value - minimum) / (maximum - minimum) * (root.width - pill.width) // pixels from value
-        width: parent.height - 5
-        height: width
-        // border.width: 0.05 * root.height
+        width: (value - minimum) / (maximum - minimum) * (root.width)
+        height: parent.height - 14
         radius: 0.5 * height
         color: "red"
     }
@@ -34,14 +33,15 @@ Item {
         drag {
             target:   pill
             axis:     Drag.XAxis
-            maximumX: root.width - pill.width
+            maximumX: root.width
             minimumX: 0
         }
-        onPositionChanged:  if(drag.active) setPixels(pill.x + 0.5 * pill.width) // drag pill
-        onClicked:                          setPixels(mouse.x) // tap tray
+        onPositionChanged:  if(drag.active) setPixels(mouse.x) // drag pill
+        onClicked: setPixels(mouse.x) // tap tray
     }
     function setPixels(pixels) {
-        var value = (maximum - minimum) / (root.width - pill.width) * (pixels - pill.width / 2) + minimum // value from pixels
+        pill.width = Math.min(root.width, Math.max(0, pixels)); // adjust pill's width to mouse.x
+        var value = (maximum) / (root.width) * (pixels) // value from pixels
         clicked(Math.min(Math.max(minimum, value), maximum)) // emit
     }
 }
