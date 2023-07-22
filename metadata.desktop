@@ -2,8 +2,9 @@
 Encoding=UTF-8
 
 Name=Now Playing
-Comment=Hello world!
-Icon=applications-multimedia
+Comment=A BLOOD RED - NowPlaying Widget With Media Controls and Slider!
+# Icon=applications-multimedia
+Icon=NowPlaying
 Type=Service
 
 X-Plasma-API=declarativeappletscript

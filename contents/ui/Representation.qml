@@ -62,19 +62,20 @@ GridLayout {
         ColumnLayout {
             anchors.centerIn: parent
             id: nowPlayingColumn
-            // Label {
             PlasmaComponents.Label {
                 id: playerName
-                Layout.alignment: alignmentOption.title.alignment
+                Layout.alignment: Qt.AlignHCenter
                 Layout.minimumWidth: 10
+                Layout.maximumWidth: 150
+                Layout.fillWidth: true
                 horizontalAlignment: alignmentOption.track.horizontalAlignment
                 text: mediaSource.playerName
                 lineHeight: 1 //
-                font.pixelSize: 20 //
+                font.pixelSize: 18
                 font.bold: true
                 wrapMode: Text.Wrap
-                maximumLineCount: 2
-                elide: alignmentOption.track.elide
+                maximumLineCount: 3
+                // elide: alignmentOption.track.elide
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
             }
