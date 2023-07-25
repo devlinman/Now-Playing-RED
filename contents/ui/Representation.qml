@@ -1,12 +1,12 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.11
-// import QtQuick.Controls 2.12
+import QtQuick.Controls 2.12
 import org.kde.plasma.components 3.0 as PlasmaComponents
 import org.kde.plasma.core 2.0 as PlasmaCore
 
 GridLayout {
     id: fullView
-    focus: true
+    // focus: true
     readonly property var alignmentOpts: [
         {   
             "flow": GridLayout.LeftToRight,
@@ -54,7 +54,7 @@ GridLayout {
     rows: alignmentOption.rows
     flow: alignmentOption.flow
     columns: alignmentOption.columns
-    layoutDirection: alignmentOption.layoutDirection
+    // layoutDirection: alignmentOption.layoutDirection
     Rectangle {
         width: 10
     }
@@ -85,7 +85,6 @@ GridLayout {
             Rectangle {
                 height: 20
             }
-            // Label {
             PlasmaComponents.Label {
                 id: nowPlayingLabel1
                 Layout.alignment: alignmentOption.title.alignment 
@@ -97,12 +96,10 @@ GridLayout {
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
                 visible: mediaSource.playbackStatus !== ""
-                //
             }
-            // Label {
             PlasmaComponents.Label {
                 id: nowPlayingLabel2
-                Layout.alignment: alignmentOption.title.alignment 
+                Layout.alignment: alignmentOption.title.alignment
                 text: mediaSource.playbackStatus
                         === "Playing" ? "PLAYING" : "PLAYED"
                 lineHeight: 1 //
@@ -111,7 +108,6 @@ GridLayout {
                 font.family: plasmoid.configuration.fontFamily
                 color: "red"
                 visible: mediaSource.playbackStatus !== ""
-                //
             }
             RowLayout {
                 id: mediaControls
@@ -124,7 +120,7 @@ GridLayout {
                         duration: 200
                     }
                 }
-                PlasmaComponents.Button {
+                Button {
                     Layout.alignment: Qt.AlignLeft
                     Layout.fillWidth: true
                     contentItem: PlasmaCore.IconItem {
@@ -138,7 +134,7 @@ GridLayout {
                         console.log("prev clicked")
                     }
                 }
-                PlasmaComponents.Button {
+                Button {
                     id: playButton
                     Layout.alignment: Qt.AlignHCenter
                     Layout.fillWidth: true
@@ -153,7 +149,7 @@ GridLayout {
                         console.log("pause clicked")
                     }
                 }
-                PlasmaComponents.Button {
+                Button {
                     Layout.alignment: Qt.AlignRight
                     Layout.fillWidth: true
                     contentItem: PlasmaCore.IconItem {
@@ -172,7 +168,7 @@ GridLayout {
         }
     }
     Rectangle {
-        width: 10
+        width: 5
     }
     Rectangle {
         id: separator
@@ -184,12 +180,11 @@ GridLayout {
         visible: mediaSource.playbackStatus !== ""
     }
     Rectangle {
-        width: 1
+        width: 5
     }
     Item {
         id: albumArtContainer
         height: parent.height; width: height
-        // height: 200; width: height
         visible: mediaSource.albumArt !== ""
         clip: true
         Image {
@@ -202,7 +197,7 @@ GridLayout {
         }
     }
     Rectangle {
-        width: 10
+        width: 5
     }
     ColumnLayout {
         Layout.fillWidth: true
@@ -215,7 +210,7 @@ GridLayout {
             Layout.fillWidth: true
             font.pixelSize: 32
             color: "red"
-            lineHeight: 0.8
+            lineHeight: 1.2
             font.bold: true
             wrapMode: Text.Wrap
             maximumLineCount: 2
@@ -223,7 +218,7 @@ GridLayout {
             horizontalAlignment: alignmentOption.track.horizontalAlignment
         }
         Rectangle {
-            height: 10
+            height: 5
         }
         PlasmaComponents.Label {
             id: artistLabel
@@ -245,42 +240,68 @@ GridLayout {
         Rectangle {
             height: 10
         }
-        Slider {
+        Item {
             width: 350
-            height: 20
+            height: 30
             Layout.alignment: alignmentOption.track.alignment
-            maximum: mediaSource.length
-            value:  mediaSource.position
-            minimum: 0
-            onClicked: { // backend = value
-                if (value !== mediaSource.position) {
-                    var seekPosition = value - mediaSource.position;
-                    root.mediaSeek(seekPosition);
+            Rectangle {
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
+                height: 0.2 * parent.height
+                radius: 0.5 * height
+                color: "red"
+                opacity: 0.5
+            }
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                drag.target: null
+                property double maximum: mediaSource.length
+                property double value: mediaSource.position
+                property double ratio: 0
+                Rectangle { // pill
+                    id: pill
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                    }
+                    width: parent.width * ( mouseArea.value / mouseArea.maximum )
+                    height: parent.height * 0.2
+                    radius: 0.5 * height
+                    color: "red"
+                }
+                onClicked: {
+                    ratio = mouse.x / parent.width
+                    var newValue = maximum * ratio
+                    root.mediaSeek(newValue - mediaSource.position)
+                    console.log( "Track: " + mediaSource.track + "\n" + "Seek to: " + value + " / " + maximum + ":  :" + ratio)
                 }
             }
             visible: mediaSource.playbackStatus !== ""
         }
-        RowLayout {
+        Rectangle {
             id: whereami
-            Layout.alignment: alignmentOption.track.alignment
+            width: 350
+            color: "transparent"
+            height: 20
+            // Layout.alignment: alignmentOption.track.alignment
             property string pos: Math.floor(mediaSource.position/1000000)
             property string len: Math.floor(mediaSource.length/1000000)
             PlasmaComponents.Label {
                 id: positionWhereAmI
-                Layout.alignment: Qt.AlignLeft
+                // Layout.alignment: Qt.AlignLeft
                 font.family: plasmoid.configuration.fontFamily
                 font.pixelSize: 20
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
                 text: root.formatTrackTime(whereami.pos)
                 color: "red"
             }
-            Rectangle {
-                height: 10
-                width: 350 - lengthWhereAmI.width -positionWhereAmI.width
-                color: "transparent"
-            }
             PlasmaComponents.Label {
                 id: lengthWhereAmI
-                Layout.alignment: Qt.AlignRight
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                // Layout.alignment: Qt.AlignRight
                 font.family: plasmoid.configuration.fontFamily
                 font.pixelSize: 20
                 text: root.formatTrackTime(whereami.len)
