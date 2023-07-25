@@ -35,11 +35,12 @@ Use the [Makefile](./Makefile).
 
 + The Slider component is derived from [Chris Cortopassi's](https://www.ics.com/author/chris-cortopassi) blog [Creating QML Controls From Scratch: Slider](https://www.ics.com/blog/creating-qml-controls-scratch-slider)
 
++ The color picker component is derived from [Fausto-Korpsvart's](https://github.com/Fausto-Korpsvart) work on ["mcOS-BS-Inline-Battery/contents/ui/lib/ConfigColor.qml"](https://github.com/Fausto-Korpsvart/mcOS-BS-Inline-Battery/blob/70890f2f6b96161919a75adf506611362c2765e4/contents/ui/lib/ConfigColor.qml), licensed under GNU GPL V2, I guess. I could not find that info. Anyway, the component was copied almost verbatim. This component is used to pick colors in the configuration window.
 
 ## IMPROVEMENTS TO BE EXPECTED
-- [ ] Option to change color of the widget text.
+- [x] Option to change color of the widget.
 - [ ] Option to change the dimensions of Album art.
-- [ ] Smooth sliding with Slider (Drag operation).
+- [x] Smooth sliding with Slider (Drag operation).
 - [ ] Miscellaneous: Fix backend warnings (Layout overflows, containment etc.)
 
 ## Preview

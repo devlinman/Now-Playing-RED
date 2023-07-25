@@ -6,7 +6,6 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 GridLayout {
     id: fullView
-    // focus: true
     readonly property var alignmentOpts: [
         {   
             "flow": GridLayout.LeftToRight,
@@ -54,6 +53,7 @@ GridLayout {
     rows: alignmentOption.rows
     flow: alignmentOption.flow
     columns: alignmentOption.columns
+   property string colorOpt: plasmoid.configuration.color ? plasmoid.configuration.color : "red"
     // layoutDirection: alignmentOption.layoutDirection
     Rectangle {
         width: 10
@@ -80,7 +80,8 @@ GridLayout {
                 maximumLineCount: 3
                 // elide: alignmentOption.track.elide
                 font.family: plasmoid.configuration.fontFamily
-                color: "red"
+                // color: "red"
+                color: colorOpt
             }
             Rectangle {
                 height: 20
@@ -94,7 +95,8 @@ GridLayout {
                 font.pixelSize: 24 //
                 font.bold: true
                 font.family: plasmoid.configuration.fontFamily
-                color: "red"
+                // color: "red"
+                color: colorOpt
                 visible: mediaSource.playbackStatus !== ""
             }
             PlasmaComponents.Label {
@@ -106,7 +108,8 @@ GridLayout {
                 font.bold: true
                 font.pixelSize: 24 //
                 font.family: plasmoid.configuration.fontFamily
-                color: "red"
+                // color: "red"
+                color: colorOpt
                 visible: mediaSource.playbackStatus !== ""
             }
             RowLayout {
@@ -176,7 +179,8 @@ GridLayout {
         width: alignmentOption.separator.width
         Layout.fillWidth: alignmentOption.separator.fillWidth
         Layout.fillHeight: alignmentOption.separator.fillHeight
-        color: "red"
+        // color: "red"
+        color: colorOpt
         visible: mediaSource.playbackStatus !== ""
     }
     Rectangle {
@@ -209,7 +213,8 @@ GridLayout {
             Layout.alignment: alignmentOption.track.alignment
             Layout.fillWidth: true
             font.pixelSize: 32
-            color: "red"
+            // color: "red"
+            color: colorOpt
             lineHeight: 1.2
             font.bold: true
             wrapMode: Text.Wrap
@@ -234,7 +239,8 @@ GridLayout {
             wrapMode: Text.Wrap
             maximumLineCount: 2
             horizontalAlignment: alignmentOption.track.horizontalAlignment
-            color: "red"
+            // color: "red"
+            color: colorOpt
             lineHeight: 1
         }
         Rectangle {
@@ -249,7 +255,8 @@ GridLayout {
                 width: parent.width
                 height: 0.2 * parent.height
                 radius: 0.5 * height
-                color: "red"
+                // color: "red"
+                color: colorOpt
                 opacity: 0.5
             }
             MouseArea {
@@ -268,7 +275,8 @@ GridLayout {
                     width: parent.width * ( mouseArea.value / mouseArea.maximum )
                     height: parent.height * 0.2
                     radius: 0.5 * height
-                    color: "red"
+                    // color: "red"
+                    color: colorOpt
                 }
                 onClicked: {
                     ratio = mouse.x / parent.width
@@ -295,7 +303,8 @@ GridLayout {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 text: root.formatTrackTime(whereami.pos)
-                color: "red"
+                // color: "red"
+                color: colorOpt
             }
             PlasmaComponents.Label {
                 id: lengthWhereAmI
@@ -305,7 +314,8 @@ GridLayout {
                 font.family: plasmoid.configuration.fontFamily
                 font.pixelSize: 20
                 text: root.formatTrackTime(whereami.len)
-                color: "red"
+                // color: "red"
+                color: colorOpt
             }
             visible: mediaSource.playbackStatus !== ""
         }
